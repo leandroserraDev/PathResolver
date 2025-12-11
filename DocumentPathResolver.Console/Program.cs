@@ -25,17 +25,17 @@ services.AddScoped(typeof(IPathDecisionEngine<>), typeof(PathDecisionEngine<>));
 services.AddScoped<IPathDecisionEngine<Person>, PersonPathDecisionEngine>();
 
 
+
 services.AddScoped<IPathSegmentProvider<Person>, NameSegmentProvider>();
 services.AddScoped<IPathSegmentProvider<Person>, LastNameSegmentProvider>();
 services.AddScoped<IPathSegmentProvider<Person>, AgeSegmentProvider>();
 services.AddScoped<IPathSegmentProvider<Person>, DocumentSegmentProvider>();
 
 
-services.AddScoped<INameSpecification,  NameSpecification>();
-services.AddScoped<ILastNameSpecification,  LastNameSpecification>();
-services.AddScoped<IAgeSpecification,  AgeSpecification>();
-services.AddScoped<IDocumentSpecification,  DocumentSpecification>();
-
+services.AddScoped<INameSpecification, NameSpecification>();
+services.AddScoped<ILastNameSpecification, LastNameSpecification>();
+services.AddScoped<IAgeSpecification, AgeSpecification>();
+services.AddScoped<IDocumentSpecification, DocumentSpecification>();
 
 
 

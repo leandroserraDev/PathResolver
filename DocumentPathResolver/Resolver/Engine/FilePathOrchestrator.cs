@@ -3,7 +3,6 @@ namespace DocumentPathResolver.Resolver.Engine
 {
     public class FilePathOrchestrator<T> : IFilePathOrchestrator<T> where T : class
     {
-
         private readonly IPathDecisionEngine<T> _decisionEngine;
 
         private readonly IPathBuilder<T> _builder;

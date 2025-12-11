@@ -1,5 +1,6 @@
 ﻿using DocumentPathResolver.Resolver.Provider;
 using DocumentPathResolver.Resolver.Provider.Person;
+using DocumentPathResolver.Resolver.Specification;
 using DocumentPathResolver.Resolver.Specification.Age;
 using DocumentPathResolver.Resolver.Specification.Document;
 using DocumentPathResolver.Resolver.Specification.LastName;
@@ -15,7 +16,9 @@ namespace DocumentPathResolver.Resolver.Engine.Person
         private readonly IDocumentSpecification _documentSpecification;
 
 
-        public PersonPathDecisionEngine(INameSpecification nameSpecification, ILastNameSpecification lastNameSpecification, IAgeSpecification ageSpecification, IDocumentSpecification documentSpecification)
+        public PersonPathDecisionEngine(INameSpecification nameSpecification, 
+            ILastNameSpecification lastNameSpecification, IAgeSpecification ageSpecification, 
+            IDocumentSpecification documentSpecification)
         {
             _nameSpecification=nameSpecification;
             _lastNameSpecification=lastNameSpecification;
@@ -26,24 +29,18 @@ namespace DocumentPathResolver.Resolver.Engine.Person
         public override IEnumerable<IPathSegmentProvider<Entities.Person>> DecideProviders(Entities.Person candidate)
         {
 
-            if (_nameSpecification.IsSatisfiedBy(candidate))
-            {
-                yield return new NameSegmentProvider();
-            }
+            var mapping = new (ISpecification<Entities.Person> Spec, IPathSegmentProvider<Entities.Person> Provider)[]
+             {
+                    (_nameSpecification, new NameSegmentProvider()),
+                    (_lastNameSpecification, new LastNameSegmentProvider()),
+                    (_ageSpecification, new AgeSegmentProvider()),
+                    (_documentSpecification, new DocumentSegmentProvider())
+             };
 
-            if (_lastNameSpecification.IsSatisfiedBy(candidate))
+            foreach (var (spec, provider) in mapping)
             {
-                yield return new LastNameSegmentProvider();
-            }
-
-            if (_ageSpecification.IsSatisfiedBy(candidate))
-            {
-                yield return new AgeSegmentProvider();
-            }
-
-            if (_documentSpecification.IsSatisfiedBy(candidate))
-            {
-                yield return new DocumentSegmentProvider();
+                if (spec.IsSatisfiedBy(candidate))
+                    yield return provider;
             }
         }
     }

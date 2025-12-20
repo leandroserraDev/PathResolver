@@ -5,6 +5,7 @@ using DocumentPathResolver.Resolver.Engine;
 using DocumentPathResolver.Resolver.Engine.Person;
 using DocumentPathResolver.Resolver.Provider;
 using DocumentPathResolver.Resolver.Provider.Person;
+using DocumentPathResolver.Resolver.Specification;
 using DocumentPathResolver.Resolver.Specification.Age;
 using DocumentPathResolver.Resolver.Specification.Document;
 using DocumentPathResolver.Resolver.Specification.LastName;
@@ -21,33 +22,33 @@ services.AddScoped(typeof(IPathBuilder<>), typeof(PathBuilder<>));
 services.AddScoped(typeof(IFilePathOrchestrator<>), typeof(FilePathOrchestrator<>));
 services.AddScoped(typeof(IPathDecisionEngine<>), typeof(PathDecisionEngine<>));
 
-
-services.AddScoped<IPathDecisionEngine<Person>, PersonPathDecisionEngine>();
-
-
-
-services.AddScoped<IPathSegmentProvider<Person>, NameSegmentProvider>();
-services.AddScoped<IPathSegmentProvider<Person>, LastNameSegmentProvider>();
-services.AddScoped<IPathSegmentProvider<Person>, AgeSegmentProvider>();
-services.AddScoped<IPathSegmentProvider<Person>, DocumentSegmentProvider>();
-
-
-services.AddScoped<INameSpecification, NameSpecification>();
-services.AddScoped<ILastNameSpecification, LastNameSpecification>();
 services.AddScoped<IAgeSpecification, AgeSpecification>();
-services.AddScoped<IDocumentSpecification, DocumentSpecification>();
+services.AddScoped<INameSpecification, NameSpecification>();
+services.AddScoped<IAgeSegmentProvider, AgeSegmentProvider>();
+services.AddScoped<INameSegmentProvider, NameSegmentProvider>();
 
+services.AddScoped<IPathRules<Person>>(sp =>
+    new NamePathRules(
+        sp.GetRequiredService<INameSegmentProvider>(),
+        sp.GetRequiredService<INameSpecification>()
+        ));
 
+services.AddScoped<IPathRules<Person>>(sp =>
+    new AgePathRules(
+        sp.GetRequiredService<IAgeSpecification>(),
+        sp.GetRequiredService<IAgeSegmentProvider>()));
 
 
 // construir o ServiceProvider
 var provider = services.BuildServiceProvider();
 
 
-var person = new Person("Leandro", "Serra", 18, "12345678");
 
 var pathBuilder = provider.GetRequiredService<IFilePathOrchestrator<Person>>();
 
+
+
+var person = new Person("Leandro", "Serra", 18, "12345678");
 var result = pathBuilder.BuildFilePath(person);
 
 

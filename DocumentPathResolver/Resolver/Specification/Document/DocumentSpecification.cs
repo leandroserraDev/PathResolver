@@ -1,14 +1,15 @@
 ﻿using DocumentPathResolver.Entities;
+using DocumentPathResolver.Resolver.Provider;
 
 namespace DocumentPathResolver.Resolver.Specification.Document
 {
-    public class DocumentSpecification : IDocumentSpecification
+    public class DocumentSpecification
     {
-        public bool IsSatisfiedBy(Person candidate)
+        public IPathSegmentProvider<Entities.Person> IsSatisfiedBy(Person candidate)
         {
             // retorna documento se for igual/maior 18
 
-            return candidate.Age >=18;
+            return null!;
         }
     }
 }

@@ -6,9 +6,7 @@ namespace DocumentPathResolver.Resolver.Specification.Age
     {
         public bool IsSatisfiedBy(Person candidate)
         {
-            // retorna a idade se for igual/maior que 16.
-
-            return candidate.Age >=16;
+            return candidate.Age >= 20;
         }
     }
 }

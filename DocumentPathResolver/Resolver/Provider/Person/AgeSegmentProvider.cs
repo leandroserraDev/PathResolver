@@ -1,7 +1,7 @@
 ﻿
 namespace DocumentPathResolver.Resolver.Provider.Person
 {
-    public class AgeSegmentProvider : IPathSegmentProvider<Entities.Person>
+    public class AgeSegmentProvider : IAgeSegmentProvider
     {
         public IEnumerable<string> GetSegments(Entities.Person candidate)
         {

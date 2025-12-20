@@ -1,4 +1,5 @@
 ﻿using DocumentPathResolver.Entities;
+using DocumentPathResolver.Resolver.Provider;
 
 namespace DocumentPathResolver.Resolver.Specification.Name
 {
@@ -6,8 +7,6 @@ namespace DocumentPathResolver.Resolver.Specification.Name
     {
         public bool IsSatisfiedBy(Person candidate)
         {
-            //Sempre retorna o nome
-
             return true;
         }
     }

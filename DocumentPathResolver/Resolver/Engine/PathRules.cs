@@ -6,17 +6,19 @@ namespace DocumentPathResolver.Resolver.Engine
 {
     public class PathRules<T> : IPathRules<T> where T : class
     {
-        private readonly ISpecification<T> _specification;
+        public ISpecification<T> Specification { get; }
         public IPathSegmentProvider<T> Provider { get; }
 
+        public int Order { get; }
 
         public PathRules(IPathSegmentProvider<T> provider,
-            ISpecification<T> specification)
+            ISpecification<T> specification,
+            int order)
         {
             Provider=provider;
-            _specification=specification;
+            Specification=specification;
+            Order=order;
         }
 
-        public bool IsMatch(T candidate) => _specification.IsSatisfiedBy(candidate);
     }
 }

@@ -18,7 +18,7 @@ namespace DocumentPathResolver.Resolver.Engine
             foreach (var pathRule in _pathRules)
             {
 
-                if (pathRule.IsMatch(candidate))
+                if (pathRule.Specification.IsSatisfiedBy(candidate))
                 {
                     yield return pathRule.Provider;
                 }

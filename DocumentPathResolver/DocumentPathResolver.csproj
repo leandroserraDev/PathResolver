@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Resolver\Engine\Person\" />
+  </ItemGroup>
+
 </Project>

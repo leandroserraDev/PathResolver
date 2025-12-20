@@ -2,13 +2,8 @@
 
 using DocumentPathResolver.Entities;
 using DocumentPathResolver.Resolver.Engine;
-using DocumentPathResolver.Resolver.Engine.Person;
-using DocumentPathResolver.Resolver.Provider;
 using DocumentPathResolver.Resolver.Provider.Person;
-using DocumentPathResolver.Resolver.Specification;
 using DocumentPathResolver.Resolver.Specification.Age;
-using DocumentPathResolver.Resolver.Specification.Document;
-using DocumentPathResolver.Resolver.Specification.LastName;
 using DocumentPathResolver.Resolver.Specification.Name;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,15 +23,18 @@ services.AddScoped<IAgeSegmentProvider, AgeSegmentProvider>();
 services.AddScoped<INameSegmentProvider, NameSegmentProvider>();
 
 services.AddScoped<IPathRules<Person>>(sp =>
-    new NamePathRules(
+    new PathRules<Person>(
         sp.GetRequiredService<INameSegmentProvider>(),
-        sp.GetRequiredService<INameSpecification>()
+        sp.GetRequiredService<INameSpecification>(),
+        1
         ));
 
 services.AddScoped<IPathRules<Person>>(sp =>
-    new AgePathRules(
+    new PathRules<Person>(
+        sp.GetRequiredService<IAgeSegmentProvider>(),
         sp.GetRequiredService<IAgeSpecification>(),
-        sp.GetRequiredService<IAgeSegmentProvider>()));
+        2
+        ));
 
 
 // construir o ServiceProvider

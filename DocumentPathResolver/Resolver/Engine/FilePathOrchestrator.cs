@@ -18,12 +18,8 @@ namespace DocumentPathResolver.Resolver.Engine
 
             var providers = _decisionEngine.DecideProviders(candidate);
 
-            foreach (var provider in providers)
-            {
-                _builder.AddProvider(provider);
-            }
-
-            return _builder.Build(candidate);
+            return _builder.Build(candidate, providers);
         }
+
     }
 }
